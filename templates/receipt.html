@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Receipt</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <div class="max-w-2xl mx-auto bg-white shadow-lg rounded-lg p-8">
+            <!-- Receipt Header -->
+            <div class="text-center mb-8">
+                <h1 class="text-2xl font-bold text-gray-800">FREE WEEKEND ACADEMY</h1>
+                <p class="text-gray-600">Official Payment Receipt</p>
+            </div>
+
+            <!-- Receipt Details -->
+            <div class="border-t border-b border-gray-200 py-4 mb-6">
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <p class="text-gray-600">Transaction Number:</p>
+                        <p class="font-semibold">{{ payment.transaction_number }}</p>
+                    </div>
+                    <div>
+                        <p class="text-gray-600">Date:</p>
+                        <p class="font-semibold">{{ payment.date.strftime('%B %d, %Y') }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Student Details -->
+            <div class="mb-6">
+                <h2 class="text-lg font-semibold mb-3">Student Information</h2>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <p class="text-gray-600">Name:</p>
+                        <p class="font-semibold">{{ student.name }}</p>
+                    </div>
+                    <div>
+                        <p class="text-gray-600">Class:</p>
+                        <p class="font-semibold">{{ student.class_name }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Payment Details -->
+            <div class="mb-8">
+                <h2 class="text-lg font-semibold mb-3">Payment Details</h2>
+                <div class="bg-gray-50 p-4 rounded-lg">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <p class="text-gray-600">Payment Type:</p>
+                            <p class="font-semibold">{{ payment.payment_type }}</p>
+                        </div>
+                        <div>
+                            <p class="text-gray-600">Amount Paid:</p>
+                            <p class="font-semibold">Ksh {{ "%.2f"|format(payment.amount) }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="flex justify-between items-center">
+                <button onclick="window.print()" 
+                        class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                    Print Receipt
+                </button>
+                <a href="{{ url_for('manage_payments', student_id=student.id) }}" 
+                   class="text-blue-500 hover:text-blue-700">
+                    Back to Payments
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            .container, .container * {
+                visibility: visible;
+            }
+            button {
+                display: none;
+            }
+            a {
+                display: none;
+            }
+            .container {
+                position: absolute;
+                left: 0;
+                top: 0;
+            }
+        }
+    </style>
+</body>
+</html> 

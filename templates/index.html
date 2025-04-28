@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Academy Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-50">
+    {% include 'nav.html' %}
+    
+    <div class="container mx-auto px-4 py-8">
+        <!-- Header Section -->
+        <div class="mb-8">
+            <h1 class="text-3xl font-bold text-gray-800">Academy Dashboard</h1>
+            <p class="text-gray-600 mt-2">Overview and quick actions</p>
+        </div>
+
+        <!-- Quick Stats -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <!-- Total Students Card -->
+            <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100 hover:shadow-md transition-shadow">
+                <div class="flex items-center">
+                    <div class="p-3 rounded-full bg-blue-50 text-blue-500">
+                        <i class="fas fa-users text-2xl"></i>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-500">Total Students</p>
+                        <div class="flex items-baseline">
+                            <h3 class="text-2xl font-bold text-gray-800">{{ total_students }}</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Passport Fee Card -->
+            <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100 hover:shadow-md transition-shadow">
+                <div class="flex items-center">
+                    <div class="p-3 rounded-full bg-green-50 text-green-500">
+                        <i class="fas fa-passport text-2xl"></i>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-500">Passport Fee</p>
+                        <div class="flex items-baseline">
+                            <h3 class="text-2xl font-bold text-gray-800">{{ passport_count }}</h3>
+                            <span class="ml-2 text-sm text-gray-500">paid</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Graduation Fee Card -->
+            <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100 hover:shadow-md transition-shadow">
+                <div class="flex items-center">
+                    <div class="p-3 rounded-full bg-purple-50 text-purple-500">
+                        <i class="fas fa-graduation-cap text-2xl"></i>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-500">Graduation Fee</p>
+                        <div class="flex items-baseline">
+                            <h3 class="text-2xl font-bold text-gray-800">{{ graduation_count }}</h3>
+                            <span class="ml-2 text-sm text-gray-500">paid</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Total Revenue Card -->
+            <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100 hover:shadow-md transition-shadow">
+                <div class="flex items-center">
+                    <div class="p-3 rounded-full bg-yellow-50 text-yellow-500">
+                        <i class="fas fa-money-bill-wave text-2xl"></i>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-500">Total Revenue</p>
+                        <div class="flex items-baseline">
+                            <h3 class="text-2xl font-bold text-gray-800">Ksh {{ "%.2f"|format(total_revenue) }}</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <a href="{{ url_for('add_student') }}" 
+               class="bg-white rounded-xl shadow-sm p-6 border border-gray-100 hover:shadow-md transition-all hover:bg-blue-50 group">
+                <div class="flex items-center">
+                    <div class="p-3 rounded-full bg-blue-100 text-blue-500 group-hover:bg-blue-200">
+                        <i class="fas fa-user-plus text-2xl"></i>
+                    </div>
+                    <div class="ml-4">
+                        <h3 class="font-semibold text-gray-800">Add New Student</h3>
+                        <p class="text-sm text-gray-500">Register a new student</p>
+                    </div>
+                </div>
+            </a>
+
+            <a href="{{ url_for('add_teacher') }}"
+               class="bg-white rounded-xl shadow-sm p-6 border border-gray-100 hover:shadow-md transition-all hover:bg-indigo-50 group">
+                <div class="flex items-center">
+                    <div class="p-3 rounded-full bg-indigo-100 text-indigo-500 group-hover:bg-indigo-200">
+                        <i class="fas fa-chalkboard-teacher text-2xl"></i>
+                    </div>
+                    <div class="ml-4">
+                        <h3 class="font-semibold text-gray-800">Add Teacher</h3>
+                        <p class="text-sm text-gray-500">Register new teacher</p>
+                    </div>
+                </div>
+            </a>
+
+            <a href="{{ url_for('search_students') }}"
+               class="bg-white rounded-xl shadow-sm p-6 border border-gray-100 hover:shadow-md transition-all hover:bg-green-50 group">
+                <div class="flex items-center">
+                    <div class="p-3 rounded-full bg-green-100 text-green-500 group-hover:bg-green-200">
+                        <i class="fas fa-search text-2xl"></i>
+                    </div>
+                    <div class="ml-4">
+                        <h3 class="font-semibold text-gray-800">Search Students</h3>
+                        <p class="text-sm text-gray-500">Find and manage students</p>
+                    </div>
+                </div>
+            </a>
+
+            <a href="{{ url_for('teachers') }}"
+               class="bg-white rounded-xl shadow-sm p-6 border border-gray-100 hover:shadow-md transition-all hover:bg-pink-50 group">
+                <div class="flex items-center">
+                    <div class="p-3 rounded-full bg-pink-100 text-pink-500 group-hover:bg-pink-200">
+                        <i class="fas fa-users-cog text-2xl"></i>
+                    </div>
+                    <div class="ml-4">
+                        <h3 class="font-semibold text-gray-800">Manage Teachers</h3>
+                        <p class="text-sm text-gray-500">View and edit teachers</p>
+                    </div>
+                </div>
+            </a>
+
+            <a href="{{ url_for('download_report') }}"
+               class="bg-white rounded-xl shadow-sm p-6 border border-gray-100 hover:shadow-md transition-all hover:bg-purple-50 group">
+                <div class="flex items-center">
+                    <div class="p-3 rounded-full bg-purple-100 text-purple-500 group-hover:bg-purple-200">
+                        <i class="fas fa-file-excel text-2xl"></i>
+                    </div>
+                    <div class="ml-4">
+                        <h3 class="font-semibold text-gray-800">Download Report</h3>
+                        <p class="text-sm text-gray-500">Export payment data</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Charts Section -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Class Distribution Chart -->
+            <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+                <div class="flex justify-between items-center mb-6">
+                    <div>
+                        <h2 class="text-lg font-semibold text-gray-800">Class Distribution</h2>
+                        <p class="text-sm text-gray-500">Students per class</p>
+                    </div>
+                    <div class="text-gray-400">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                </div>
+                <div style="height: 300px;">
+                    <canvas id="classDistributionChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Payment Status Chart -->
+            <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+                <div class="flex justify-between items-center mb-6">
+                    <div>
+                        <h2 class="text-lg font-semibold text-gray-800">Payment Status</h2>
+                        <p class="text-sm text-gray-500">Fee payment overview</p>
+                    </div>
+                    <div class="text-gray-400">
+                        <i class="fas fa-chart-pie"></i>
+                    </div>
+                </div>
+                <div style="height: 300px;">
+                    <canvas id="paymentStatusChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Class Distribution Chart
+        const classCtx = document.getElementById('classDistributionChart').getContext('2d');
+        new Chart(classCtx, {
+            type: 'bar',
+            data: {
+                labels: {{ class_labels|tojson }},
+                datasets: [{
+                    label: 'Students',
+                    data: {{ class_data|tojson }},
+                    backgroundColor: 'rgba(59, 130, 246, 0.5)',
+                    borderColor: 'rgb(59, 130, 246)',
+                    borderWidth: 1,
+                    borderRadius: 5,
+                    maxBarThickness: 50
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            stepSize: 1
+                        },
+                        grid: {
+                            display: true,
+                            drawBorder: false
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                }
+            }
+        });
+
+        // Payment Status Chart
+        const paymentCtx = document.getElementById('paymentStatusChart').getContext('2d');
+        new Chart(paymentCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Passport Fee Paid', 'Graduation Fee Paid', 'No Payments'],
+                datasets: [{
+                    data: [
+                        {{ passport_count }},
+                        {{ graduation_count }},
+                        {{ total_students - (passport_count + graduation_count) }}
+                    ],
+                    backgroundColor: [
+                        'rgba(34, 197, 94, 0.8)',
+                        'rgba(168, 85, 247, 0.8)',
+                        'rgba(239, 68, 68, 0.8)'
+                    ],
+                    borderColor: [
+                        'rgb(34, 197, 94)',
+                        'rgb(168, 85, 247)',
+                        'rgb(239, 68, 68)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            padding: 20,
+                            usePointStyle: true
+                        }
+                    }
+                },
+                cutout: '65%'
+            }
+        });
+    </script>
+</body>
+</html>

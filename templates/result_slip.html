@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header">
+            <h2 class="text-center">Student Result Slip</h2>
+        </div>
+        <div class="card-body">
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <h4>Student Information</h4>
+                    <p><strong>Name:</strong> {{ student.name }}</p>
+                    <p><strong>Class:</strong> {{ student.class_name }}</p>
+                    <p><strong>Session:</strong> {{ student.session }}</p>
+                </div>
+                <div class="col-md-6 text-right">
+                    <p><strong>Date:</strong> {{ current_date.strftime('%Y-%m-%d') }}</p>
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Exam Type</th>
+                            <th>Marks Obtained</th>
+                            <th>Total Marks</th>
+                            <th>Percentage</th>
+                            <th>Grade</th>
+                            <th>Remarks</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if class_midterm %}
+                        <tr>
+                            <td>Class Mid Term</td>
+                            <td>{{ class_midterm.marks_obtained }}</td>
+                            <td>{{ class_midterm.total_marks }}</td>
+                            <td>{{ "%.2f"|format(class_midterm.percentage) }}%</td>
+                            <td>{{ class_midterm.grade }}</td>
+                            <td>{{ class_midterm.remarks }}</td>
+                        </tr>
+                        {% endif %}
+                        
+                        {% if leadership_midterm %}
+                        <tr>
+                            <td>Leadership Mid Term</td>
+                            <td>{{ leadership_midterm.marks_obtained }}</td>
+                            <td>{{ leadership_midterm.total_marks }}</td>
+                            <td>{{ "%.2f"|format(leadership_midterm.percentage) }}%</td>
+                            <td>{{ leadership_midterm.grade }}</td>
+                            <td>{{ leadership_midterm.remarks }}</td>
+                        </tr>
+                        {% endif %}
+                        
+                        {% if class_final %}
+                        <tr>
+                            <td>Class Final Exam</td>
+                            <td>{{ class_final.marks_obtained }}</td>
+                            <td>{{ class_final.total_marks }}</td>
+                            <td>{{ "%.2f"|format(class_final.percentage) }}%</td>
+                            <td>{{ class_final.grade }}</td>
+                            <td>{{ class_final.remarks }}</td>
+                        </tr>
+                        {% endif %}
+                        
+                        {% if leadership_final %}
+                        <tr>
+                            <td>Leadership Final Exam</td>
+                            <td>{{ leadership_final.marks_obtained }}</td>
+                            <td>{{ leadership_final.total_marks }}</td>
+                            <td>{{ "%.2f"|format(leadership_final.percentage) }}%</td>
+                            <td>{{ leadership_final.grade }}</td>
+                            <td>{{ leadership_final.remarks }}</td>
+                        </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-md-12">
+                    <h4>Overall Performance</h4>
+                    <p><strong>Overall Average:</strong> {{ "%.2f"|format(overall_average) }}%</p>
+                </div>
+            </div>
+
+            <div class="text-center mt-4">
+                <button onclick="window.print()" class="btn btn-primary">Print Result Slip</button>
+                <a href="{{ url_for('view_student', student_id=student.id) }}" class="btn btn-secondary">Back to Student</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    @media print {
+        .btn {
+            display: none;
+        }
+        .card {
+            border: none;
+        }
+        .card-header {
+            background-color: white !important;
+        }
+    }
+</style>
+{% endblock %} 

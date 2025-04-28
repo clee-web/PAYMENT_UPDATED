@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ 'Edit' if teacher else 'Add' }} Teacher</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+    {% include 'nav.html' %}
+    <div class="container mx-auto px-4 py-8">
+        <div class="max-w-2xl mx-auto bg-white rounded-lg shadow p-6">
+            <h1 class="text-2xl font-bold text-gray-800 mb-6">
+                {{ 'Edit' if teacher else 'Add New' }} Teacher
+            </h1>
+
+            <form method="POST" enctype="multipart/form-data" class="space-y-4">
+                <div>
+                    <label for="name" class="block text-gray-700 font-medium mb-2">Name</label>
+                    <input type="text" id="name" name="name" 
+                           value="{{ teacher.name if teacher else '' }}"
+                           class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                           required>
+                </div>
+
+                <div>
+                    <label for="phone" class="block text-gray-700 font-medium mb-2">Phone</label>
+                    <input type="tel" id="phone" name="phone"
+                           value="{{ teacher.phone if teacher else '' }}"
+                           class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                           required>
+                </div>
+
+                <div>
+                    <label for="email" class="block text-gray-700 font-medium mb-2">Email</label>
+                    <input type="email" id="email" name="email"
+                           value="{{ teacher.email if teacher else '' }}"
+                           class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+
+                <div>
+                    <label for="qualification" class="block text-gray-700 font-medium mb-2">Qualification</label>
+                    <input type="text" id="qualification" name="qualification"
+                           value="{{ teacher.qualification if teacher else '' }}"
+                           class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                           required>
+                </div>
+
+                <div>
+                    <label for="subject" class="block text-gray-700 font-medium mb-2">Subject</label>
+                    <input type="text" id="subject" name="subject"
+                           value="{{ teacher.subject if teacher else '' }}"
+                           class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                           required>
+                </div>
+
+                <div>
+                    <label for="credentials" class="block text-gray-700 font-medium mb-2">Academic Credentials</label>
+                    <input type="file" id="credentials" name="credentials"
+                           class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                           accept=".pdf,.doc,.docx">
+                    {% if teacher and teacher.credentials_file %}
+                    <p class="text-sm text-gray-600 mt-1">Current file: {{ teacher.credentials_file }}</p>
+                    {% endif %}
+                </div>
+
+                <div class="flex justify-end space-x-4">
+                    <a href="{{ url_for('teachers') }}"
+                       class="px-4 py-2 border rounded-lg text-gray-600 hover:bg-gray-100">
+                        Cancel
+                    </a>
+                    <button type="submit"
+                            class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
+                        {{ 'Update' if teacher else 'Add' }} Teacher
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html> 

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Details</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+    {% include 'nav.html' %}
+    <div class="container mx-auto px-4 py-8">
+        <div class="max-w-2xl mx-auto bg-white rounded-lg shadow p-6">
+            <div class="flex justify-between items-center mb-6">
+                <h1 class="text-2xl font-bold text-gray-800">Teacher Details</h1>
+                <a href="{{ url_for('teachers') }}" 
+                   class="text-blue-500 hover:text-blue-700">Back to Teachers</a>
+            </div>
+
+            <div class="space-y-4">
+                <div>
+                    <h3 class="text-gray-600 font-medium">Name</h3>
+                    <p class="text-gray-800">{{ teacher.name }}</p>
+                </div>
+
+                <div>
+                    <h3 class="text-gray-600 font-medium">Phone</h3>
+                    <p class="text-gray-800">{{ teacher.phone }}</p>
+                </div>
+
+                <div>
+                    <h3 class="text-gray-600 font-medium">Email</h3>
+                    <p class="text-gray-800">{{ teacher.email or 'Not provided' }}</p>
+                </div>
+
+                <div>
+                    <h3 class="text-gray-600 font-medium">Qualification</h3>
+                    <p class="text-gray-800">{{ teacher.qualification }}</p>
+                </div>
+
+                <div>
+                    <h3 class="text-gray-600 font-medium">Subject</h3>
+                    <p class="text-gray-800">{{ teacher.subject }}</p>
+                </div>
+
+                <div>
+                    <h3 class="text-gray-600 font-medium">Joining Date</h3>
+                    <p class="text-gray-800">{{ teacher.joining_date.strftime('%B %d, %Y') }}</p>
+                </div>
+
+                {% if teacher.credentials_file %}
+                <div>
+                    <h3 class="text-gray-600 font-medium">Academic Credentials</h3>
+                    <a href="{{ url_for('static', filename='uploads/credentials/' + teacher.credentials_file) }}" 
+                       class="text-blue-500 hover:text-blue-700"
+                       target="_blank">
+                        View Credentials
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</body>
+</html> 

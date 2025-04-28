@@ -1,0 +1,29 @@
+<!-- templates/sessions.html -->
+{% extends "base.html" %}
+{% block content %}
+<h1>Sessions</h1>
+<a href="{{ url_for('add_session') }}" class="btn btn-primary">Add Session</a>
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for session in sessions %}
+        <tr>
+            <td>{{ session.id }}</td>
+            <td>{{ session.name }}</td>
+            <td>
+                <a href="{{ url_for('edit_session', session_id=session.id) }}" class="btn btn-sm btn-warning">Edit</a>
+                <form action="{{ url_for('delete_session', session_id=session.id) }}" method="POST" style="display:inline;">
+                    <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
